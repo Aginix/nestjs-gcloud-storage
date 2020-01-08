@@ -3,6 +3,7 @@ import { StorageOptions, CreateWriteStreamOptions } from '@google-cloud/storage'
 
 export interface GCloudStorageOptions extends StorageOptions {
   defaultBucketname: string;
+  storageBaseUri?: string;
 }
 
 export interface GCloudStoragePerRequestOptions extends GCloudStorageOptions {
@@ -10,6 +11,13 @@ export interface GCloudStoragePerRequestOptions extends GCloudStorageOptions {
    * Override writeStreamOptions
    */
   writeStreamOptions?: CreateWriteStreamOptions;
+
+  /**
+   * Filename prefix (Folder name)
+   * @example attachments
+   * @example static/css
+   */
+  prefix?: string;
 }
 
 export interface GCloudStorageModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
