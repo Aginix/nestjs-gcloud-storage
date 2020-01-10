@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aginix/gcloud-storage.git"
+    "url": "https://github.com/aginix/nestjs-gcloud-storage.git"
   },
   "scripts": {
     "start": "tsc -p tsconfig.json",
