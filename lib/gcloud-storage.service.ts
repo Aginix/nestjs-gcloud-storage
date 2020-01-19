@@ -20,7 +20,9 @@ export interface UploadedFileMetadata {
 export class GCloudStorageService {
   public storage: Storage = new Storage();
 
-  constructor(@Inject(GCLOUD_STORAGE_MODULE_OPTIONS) private readonly options: GCloudStorageOptions) {}
+  constructor(@Inject(GCLOUD_STORAGE_MODULE_OPTIONS) private readonly options: GCloudStorageOptions) {
+    console.log('GCloudStorageService.options', options);
+  }
 
   get bucket(): Bucket {
     const bucketName = this.options.defaultBucketname;

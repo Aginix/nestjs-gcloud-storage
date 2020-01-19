@@ -8,7 +8,10 @@ const PROVIDERS = [GCloudMulterStorageService, GCloudStorageService];
 const EXPORTS = [...PROVIDERS];
 
 @Global()
-@Module({})
+@Module({
+  providers: [...PROVIDERS],
+  exports: [...PROVIDERS],
+})
 export class GCloudStorageCoreModule {
   static withConfig(options: GCloudStorageOptions): DynamicModule {
     const gcsModuleOptions = {
@@ -24,17 +27,12 @@ export class GCloudStorageCoreModule {
 
     return {
       module: GCloudStorageCoreModule,
-      providers: [GCloudMulterStorageService, gcsModuleOptions, gcsServiceProvider],
+      providers: [gcsModuleOptions, GCloudMulterStorageService, gcsServiceProvider],
       exports: [...EXPORTS],
     };
   }
 
   static withConfigAsync(options: GCloudStorageAsyncOptions): DynamicModule {
-    const gcsModuleOptions = {
-      provide: GCLOUD_STORAGE_MODULE_OPTIONS,
-      useValue: options,
-    };
-
     const gcsServiceProvider = {
       provide: GCloudStorageService,
       useFactory: (options: GCloudStorageOptions) => new GCloudStorageService(options),
@@ -44,7 +42,15 @@ export class GCloudStorageCoreModule {
     return {
       module: GCloudStorageCoreModule,
       imports: options.imports,
-      providers: [GCloudMulterStorageService, gcsModuleOptions, gcsServiceProvider],
+      providers: [
+        {
+          provide: GCLOUD_STORAGE_MODULE_OPTIONS,
+          useFactory: options.useFactory,
+          inject: options.inject || [],
+        },
+        GCloudMulterStorageService,
+        gcsServiceProvider,
+      ],
       exports: [...EXPORTS],
     };
   }
