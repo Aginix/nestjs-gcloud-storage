@@ -20,7 +20,7 @@ export interface GCloudStoragePerRequestOptions extends GCloudStorageOptions {
   prefix?: string;
 }
 
-export interface GCloudStorageModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+export interface GCloudStorageAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   name?: string;
   useFactory?: (...args: any[]) => Promise<GCloudStorageOptions> | GCloudStorageOptions;
   inject?: any[];

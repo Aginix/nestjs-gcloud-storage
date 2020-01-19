@@ -1,21 +1,21 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { GCloudMulterStorageService } from './gcloud-multer.service';
-import { GCLOUD_STORAGE_MODULE_OPTIONS } from './gcloud-storage.constant';
-import { GCloudStorageOptions } from './gcloud-storage.interface';
-import { GCloudStorageService } from './gcloud-storage.service';
+import { GCloudStorageCoreModule } from './gcloud-storage-core.module';
+import { GCloudStorageAsyncOptions, GCloudStorageOptions } from './gcloud-storage.interface';
 
-const PUBLIC_PROVIDERS = [GCloudMulterStorageService, GCloudStorageService];
-
-@Module({
-  providers: [...PUBLIC_PROVIDERS],
-  exports: [...PUBLIC_PROVIDERS, GCLOUD_STORAGE_MODULE_OPTIONS],
-})
+@Module({})
 export class GCloudStorageModule {
   static withConfig(options: GCloudStorageOptions): DynamicModule {
     return {
       module: GCloudStorageModule,
-      providers: [{ provide: GCLOUD_STORAGE_MODULE_OPTIONS, useValue: options }],
+      imports: [GCloudStorageCoreModule.withConfig(options)],
+    };
+  }
+
+  static withConfigAsync(options: GCloudStorageAsyncOptions): DynamicModule {
+    return {
+      module: GCloudStorageModule,
+      imports: [GCloudStorageCoreModule.withConfigAsync(options)],
     };
   }
 }
