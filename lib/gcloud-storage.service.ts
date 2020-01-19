@@ -23,7 +23,6 @@ export class GCloudStorageService {
   constructor(@Inject(GCLOUD_STORAGE_MODULE_OPTIONS) private readonly options: GCloudStorageOptions) {}
 
   get bucket(): Bucket {
-    console.log(this.options);
     const bucketName = this.options.defaultBucketname;
     return this.storage.bucket(bucketName);
   }

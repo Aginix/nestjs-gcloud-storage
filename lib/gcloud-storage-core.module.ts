@@ -24,8 +24,8 @@ export class GCloudStorageCoreModule {
 
     return {
       module: GCloudStorageCoreModule,
-      providers: [gcsModuleOptions, gcsServiceProvider, GCloudMulterStorageService],
-      exports: [...EXPORTS, gcsModuleOptions],
+      providers: [GCloudMulterStorageService, gcsModuleOptions, gcsServiceProvider],
+      exports: [...EXPORTS],
     };
   }
 
@@ -37,21 +37,15 @@ export class GCloudStorageCoreModule {
 
     const gcsServiceProvider = {
       provide: GCloudStorageService,
-      useFactory: (options: GCloudStorageOptions) => {
-        return new GCloudStorageService(options);
-      },
+      useFactory: (options: GCloudStorageOptions) => new GCloudStorageService(options),
       inject: [GCLOUD_STORAGE_MODULE_OPTIONS],
     };
 
     return {
       module: GCloudStorageCoreModule,
       imports: options.imports,
-      providers: [
-        gcsModuleOptions,
-        // gcsServiceProvider,
-        ...PROVIDERS,
-      ],
-      exports: [...EXPORTS, gcsModuleOptions],
+      providers: [GCloudMulterStorageService, gcsModuleOptions, gcsServiceProvider],
+      exports: [...EXPORTS],
     };
   }
 }
