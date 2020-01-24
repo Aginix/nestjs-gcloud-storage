@@ -374,15 +374,16 @@
     object-hash "2.0.1"
     uuid "3.3.3"
 
-"@nestjs/platform-express@6.10.14":
-  version "6.10.14"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.10.14.tgz#1ae544c8668545c2707c094d2de7c4ca98c2ea48"
-  integrity sha512-0E31f9FeKhcbhNZaUh4IrkJt06uGR3PnWVBya8yewlsWBtpXORVOE5yJZnw5Q5QZhdUcN79gZeVZn2WOoViE3Q==
+"@nestjs/platform-express@6.11.0":
+  version "6.11.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.11.0.tgz#171ec9567a68ff3556889cb7627d20815fd16d47"
+  integrity sha512-zwBCIVYejyQuM3xCOYTSFuWoF6saukNeLO57xV2z1Vtx0wMuX4S5KwG+aHyK7a4hIGKwDWYlFlBAea0wEzZceQ==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
     express "4.17.1"
     multer "1.4.2"
+    tslib "1.10.0"
 
 "@nestjs/testing@6.10.14":
   version "6.10.14"
@@ -5060,7 +5061,7 @@ ts-jest@24.3.0:
     semver "^5.5"
     yargs-parser "10.x"
 
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
