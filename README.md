@@ -10,6 +10,48 @@ $ yarn add @aginix/gcloud-storage
 
 ## Examples
 
+### Default import
+
+If you have bucket domain name you can config `storageBaseUri`.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { GCloudStorageModule } from '@aginix/gcloud-storage';
+
+@Module({
+  imports: [
+    GCloudStorageModule.withConfig({
+      defaultBucketname: 'bucket.aginix.tech',
+      storageBaseUri: 'bucket.aginix.tech',
+    })
+  ],
+})
+export class AppModule {}
+```
+
+### Default import with asynchonous
+
+```typescript
+import { Module } from '@nestjs/common';
+import { GCloudStorageModule } from '@aginix/gcloud-storage';
+import { ConfigService } from './config.service';
+import { ConfigModule } from './config.module';
+
+@Module({
+  imports: [
+    GCloudStorageModule.withConfigAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        defaultBucketname: config.get('GCS_BUCKET_NAME'),
+        storageBaseUri: config.get('GCS_DOMAIN_NAME'),
+      }),
+      imports: [ConfigModule],
+    })
+  ],
+})
+export class AppModule {}
+```
+
 ### Store a file using the default config
 
 ```typescript
@@ -73,3 +115,4 @@ export class AppController {
   }
 }
 ```
+
