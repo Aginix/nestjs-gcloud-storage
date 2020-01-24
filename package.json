@@ -37,7 +37,7 @@
     "@nestjs/common": "6.10.14",
     "@nestjs/core": "6.10.14",
     "@nestjs/platform-express": "6.10.14",
-    "@nestjs/testing": "6.10.14",
+    "@nestjs/testing": "6.11.0",
     "@types/jest": "24.9.0",
     "@types/node": "13.1.8",
     "dotenv": "^8.1.0",
