@@ -34,9 +34,10 @@
     "@google-cloud/storage": "^4.2.0"
   },
   "devDependencies": {
-    "@nestjs/common": "6.11.0",
+    "@nestjs/common": "6.11.1",
     "@nestjs/core": "6.11.0",
     "@nestjs/platform-express": "6.10.14",
+    "@nestjs/platform-express": "6.11.1",
     "@nestjs/testing": "6.11.1",
     "@types/jest": "24.9.1",
     "@types/node": "13.1.8",
