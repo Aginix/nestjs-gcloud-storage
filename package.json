@@ -1,6 +1,6 @@
 {
   "name": "@aginix/gcloud-storage",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Google Cloud Storage module for Nest framework (node.js)",
   "author": {
     "name": "Nonpawit Teerachetmongkol",
@@ -37,8 +37,8 @@
     "@nestjs/common": "6.11.1",
     "@nestjs/core": "6.11.0",
     "@nestjs/platform-express": "6.10.14",
-    "@nestjs/platform-express": "6.11.1",
     "@nestjs/testing": "6.11.4",
+    "@nestjs/platform-express": "6.11.4",
     "@types/jest": "24.9.1",
     "@types/node": "13.1.8",
     "dotenv": "^8.1.0",
