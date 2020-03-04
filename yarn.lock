@@ -179,9 +179,9 @@
   integrity sha512-VccZDcOql77obTnFh0TbNED/6ZbbmHDf8UMNnzO1d5g9V0Htfm4k5cllY8P1tJsRKC3zWYGRLaViiupcgVjBoQ==
 
 "@google-cloud/storage@^4.2.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-4.3.0.tgz#90118c42817fb2c8b3b8663a0f2857b5b45dda78"
-  integrity sha512-ph0jsUsZ9FPtN40V5eIkKPLUmxnTpxqBDkWxStW/kbQZgoNVGW9vJcbsYSyE4ath7jQIpM4OHu6aqmPFX1OnGw==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-4.4.0.tgz#28bf3954b2711bab7731919a1992c84d543918ef"
+  integrity sha512-R64ey4dLIG3IgiKw0CL5MdZ4ZtZdGhN75171vjiL+ioZG+hlLFkjsrCTRuIdE35v42nNe5nXmVhBHQQTuPozHA==
   dependencies:
     "@google-cloud/common" "^2.1.1"
     "@google-cloud/paginator" "^2.0.0"
