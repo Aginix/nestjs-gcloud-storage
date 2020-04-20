@@ -39,7 +39,7 @@
     "@nestjs/platform-express": "6.11.8",
     "@nestjs/testing": "6.11.8",
     "@types/jest": "24.9.1",
-    "@types/node": "13.7.4",
+    "@types/node": "13.13.1",
     "dotenv": "^8.1.0",
     "husky": "4.2.3",
     "jest": "24.9.0",
