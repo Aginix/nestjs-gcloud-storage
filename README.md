@@ -1,3 +1,7 @@
+<a href="https://www.npmjs.com/@aginix/nestjs-gcloud-storage"><img src="https://img.shields.io/npm/v/@aginix/nestjs-gcloud-storage.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/@aginix/nestjs-gcloud-storage"><img src="https://img.shields.io/npm/l/@aginix/nestjs-gcloud-storage.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/@aginix/nestjs-gcloud-storage"><img src="https://img.shields.io/npm/dm/@aginix/nestjs-gcloud-storage.svg" alt="NPM Downloads" /></a>
+
 ## Description
 
 Google Cloud Storage Module for Nest.js Framework
