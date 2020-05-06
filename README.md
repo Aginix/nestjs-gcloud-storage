@@ -5,7 +5,7 @@ Google Cloud Storage Module for Nest.js Framework
 ## Installation
 
 ```bash
-$ yarn add @aginix/gcloud-storage
+$ yarn add @aginix/nestjs-gcloud-storage
 ```
 
 ## Examples
@@ -16,7 +16,7 @@ If you have bucket domain name you can config `storageBaseUri`.
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { GCloudStorageModule } from '@aginix/gcloud-storage';
+import { GCloudStorageModule } from '@aginix/nestjs-gcloud-storage';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ export class AppModule {}
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { GCloudStorageModule } from '@aginix/gcloud-storage';
+import { GCloudStorageModule } from '@aginix/nestjs-gcloud-storage';
 import { ConfigService } from './config.service';
 import { ConfigModule } from './config.module';
 
@@ -66,7 +66,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   GCloudStorageFileInterceptor,
   UploadedFileMetadata,
-} from '@aginix/gcloud-storage';
+} from '@aginix/nestjs-gcloud-storage';
 
 @Controller()
 export class AppController {
@@ -98,7 +98,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   GCloudStorageFileInterceptor,
   UploadedFileMetadata,
-} from '@aginix/gcloud-storage';
+} from '@aginix/nestjs-gcloud-storage';
 
 @Controller()
 export class AppController {
