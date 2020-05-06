@@ -36,6 +36,7 @@
   "devDependencies": {
     "@nestjs/core": "6.11.11",
     "@nestjs/common": "6.11.8",
+    "@nestjs/testing": "7.0.0",
     "@nestjs/platform-express": "7.0.0",
     "@nestjs/testing": "6.11.8",
     "@types/jest": "24.9.1",
