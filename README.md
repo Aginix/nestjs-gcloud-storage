@@ -88,7 +88,7 @@ export class AppController {
 }
 ```
 
-### Store a file using a specifig folder/prefix name
+### Store a file using a specific folder/prefix name
 
 ```typescript
 import {
