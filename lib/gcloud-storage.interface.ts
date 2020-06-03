@@ -1,9 +1,15 @@
 import { ModuleMetadata } from '@nestjs/common/interfaces';
-import { StorageOptions, CreateWriteStreamOptions } from '@google-cloud/storage';
+import { StorageOptions, CreateWriteStreamOptions, PredefinedAcl } from '@google-cloud/storage';
 
 export interface GCloudStorageOptions extends StorageOptions {
   defaultBucketname: string;
   storageBaseUri?: string;
+
+  /**
+   * Set global predefined ACL
+   * @default publicRead
+   */
+  predefinedAcl?: PredefinedAcl;
 }
 
 export interface GCloudStoragePerRequestOptions extends GCloudStorageOptions {

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { join } from 'path';
 import { Storage, Bucket, CreateWriteStreamOptions } from '@google-cloud/storage';
 
@@ -18,15 +18,15 @@ export interface UploadedFileMetadata {
 
 @Injectable()
 export class GCloudStorageService {
+  private readonly logger = new Logger(GCloudStorageService.name);
   public storage: Storage = new Storage();
+  public bucket: Bucket = null;
 
   constructor(@Inject(GCLOUD_STORAGE_MODULE_OPTIONS) private readonly options: GCloudStorageOptions) {
-    console.log('GCloudStorageService.options', options);
-  }
+    this.logger.log(`GCloudStorageService.options ${options}`);
 
-  get bucket(): Bucket {
     const bucketName = this.options.defaultBucketname;
-    return this.storage.bucket(bucketName);
+    this.bucket = this.storage.bucket(bucketName);
   }
 
   async upload(
@@ -46,8 +46,9 @@ export class GCloudStorageService {
 
     const writeStreamOptions = perRequestOptions && perRequestOptions.writeStreamOptions;
 
+    const { predefinedAcl = 'publicRead' } = perRequestOptions;
     const streamOpts: CreateWriteStreamOptions = {
-      predefinedAcl: 'publicRead',
+      predefinedAcl: predefinedAcl,
       ...writeStreamOptions,
     };
 
@@ -60,7 +61,7 @@ export class GCloudStorageService {
     return new Promise((resolve, reject) => {
       gcFile
         .createWriteStream(streamOpts)
-        .on('error', error => reject(error))
+        .on('error', (error) => reject(error))
         .on('finish', () => resolve(this.getStorageUrl(gcFilename, perRequestOptions)))
         .end(fileMetadata.buffer);
     });

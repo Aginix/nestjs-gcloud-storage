@@ -27,6 +27,7 @@ import { GCloudStorageModule } from '@aginix/nestjs-gcloud-storage';
     GCloudStorageModule.withConfig({
       defaultBucketname: 'bucket.aginix.tech',
       storageBaseUri: 'bucket.aginix.tech',
+      predefinedAcl: 'private' // Default is publicRead
     })
   ],
 })
@@ -55,6 +56,22 @@ import { ConfigModule } from './config.module';
 })
 export class AppModule {}
 ```
+
+### Using uniform bucket-level access
+
+Set `predefinedAcl` to `null`
+
+```typescript
+@Module({
+  imports: [
+    GCloudStorageModule.withConfig({
+      predefinedAcl: null
+    })
+  ],
+})
+export class AppModule {}
+```
+
 
 ### Store a file using the default config
 
@@ -120,3 +137,25 @@ export class AppController {
 }
 ```
 
+### Store a file using a specific predefined ACL
+
+```typescript
+@Controller()
+export class AppController {
+  
+  @Post('gcs/secret-file')
+  @UseInterceptors(
+    GCloudStorageFileInterceptor('secret-file', undefined, { predefinedAcl: 'private' })
+  )
+  UploadedSecretFile(
+    @UploadedFile()
+    file: UploadedFileMetadata,
+  ) {
+    Logger.log(`Storage URL: ${file.storageUrl}`, 'AppController');
+  }
+}
+```
+
+## License
+
+MIT © [Aginix Technologies Co., Ltd.](https://github.com/Aginix/nestjs-gcloud-storage)
