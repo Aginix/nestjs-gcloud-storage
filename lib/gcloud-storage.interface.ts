@@ -6,7 +6,7 @@ export interface GCloudStorageOptions extends StorageOptions {
   storageBaseUri?: string;
 
   /**
-   * Set global predefined ACL
+   * Set default predefined ACL
    * @default publicRead
    */
   predefinedAcl?: PredefinedAcl;
