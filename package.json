@@ -31,7 +31,7 @@
     "@nestjs/platform-express": "^7.1.2"
   },
   "dependencies": {
-    "@google-cloud/storage": "^4.7.0"
+    "@google-cloud/storage": "^5.8.4"
   },
   "devDependencies": {
     "@nestjs/common": "7.5.2",
