@@ -38,7 +38,7 @@ export function GCloudStorageFileInterceptor(
         // setting prefix
         gcloudStorageOptions.prefix = join(
           gcloudStorageOptions.prefix,
-          `${bno}/${type}/${partition}/tb_raw_${bno}_${type}`,
+          `${bno}/${type}/tb_raw_${bno}_${type}/${partition}`,
         );
       }
 
