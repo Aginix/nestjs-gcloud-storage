@@ -33,7 +33,10 @@ export class GCloudStorageService {
     fileMetadata: UploadedFileMetadata,
     perRequestOptions: Partial<GCloudStoragePerRequestOptions> = null,
   ): Promise<string> {
-    const filename = uuid();
+    // change filename to originalname
+    // const filename = uuid();
+    const filename = fileMetadata.originalname;
+
     const gcFilename =
       perRequestOptions && perRequestOptions.prefix ? join(perRequestOptions.prefix, filename) : filename;
     const gcFile = this.bucket.file(gcFilename);
