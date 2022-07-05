@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 
 import { GCloudStoragePerRequestOptions } from './gcloud-storage.interface';
 import { GCloudStorageService } from './gcloud-storage.service';
+import { join } from 'path';
+
+import * as moment from 'moment-timezone';
 
 export function GCloudStorageFileInterceptor(
   fieldName: string,
@@ -24,6 +27,20 @@ export function GCloudStorageFileInterceptor(
 
       const request = context.switchToHttp().getRequest();
       const file = request[fieldName];
+      // customize gcloudStroageOptions.prefix to use request object
+      const bno = request.body?.bno;
+      const type = request.body?.type;
+
+      if (bno && type && gcloudStorageOptions && gcloudStorageOptions.prefix) {
+        // partition
+        moment.tz.setDefault('Asia/Seoul');
+        const partition = moment().format('YYYYMMDD');
+        // setting prefix
+        gcloudStorageOptions.prefix = join(
+          gcloudStorageOptions.prefix,
+          `${bno}/${type}/${partition}/tb_raw_${bno}_${type}`,
+        );
+      }
 
       if (!file) {
         Logger.error(
