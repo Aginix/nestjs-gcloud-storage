@@ -41,7 +41,7 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                 if (bno && type && gcloudStorageOptions && gcloudStorageOptions.prefix) {
                     moment.tz.setDefault('Asia/Seoul');
                     const partition = moment().format('YYYYMMDD');
-                    gcloudStorageOptions.prefix = path_1.join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}/${partition}`);
+                    gcloudStorageOptions.prefix = path_1.join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`);
                 }
                 if (!file) {
                     common_1.Logger.error('GCloudStorageFileInterceptor', `Can not intercept field "${fieldName}". Did you specify the correct field name in @GCloudStorageFileInterceptor('${fieldName}')?`);
