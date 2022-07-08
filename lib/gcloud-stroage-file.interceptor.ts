@@ -43,10 +43,10 @@ export function GCloudStorageFileInterceptor(
           const partition = moment().format('YYYYMMDD');
           // setting prefix (assumtion: it's a daily partitioned table)
           // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`);
-          path = join(storagePath, `${bno}/${type}/${partition}`);
+          path = join(storagePath, `${bno}/${type}/source/${partition}`);
         } else {
           // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}`);
-          path = join(storagePath, `${bno}/${type}`);
+          path = join(storagePath, `${bno}/${type}/source`);
         }
       }
 
