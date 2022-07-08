@@ -27,19 +27,25 @@ export function GCloudStorageFileInterceptor(
 
       const request = context.switchToHttp().getRequest();
       const file = request[fieldName];
+
       // customize gcloudStroageOptions.prefix to use request object
       const bno = request.body?.bno;
       const type = request.body?.type;
+      const partitioned = request.body?.partitioned;
 
       if (bno && type && gcloudStorageOptions && gcloudStorageOptions.prefix) {
-        // partition
-        moment.tz.setDefault('Asia/Seoul');
-        const partition = moment().format('YYYYMMDD');
-        // setting prefix (assumtion: it's a daily partitioned table)
-        gcloudStorageOptions.prefix = join(
-          gcloudStorageOptions.prefix,
-          `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`,
-        );
+        if (partitioned) {
+          // partition
+          moment.tz.setDefault('Asia/Seoul');
+          const partition = moment().format('YYYYMMDD');
+          // setting prefix (assumtion: it's a daily partitioned table)
+          gcloudStorageOptions.prefix = join(
+            gcloudStorageOptions.prefix,
+            `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`,
+          );
+        } else {
+          gcloudStorageOptions.prefix = join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}`);
+        }
       }
 
       if (!file) {
