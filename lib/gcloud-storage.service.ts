@@ -32,13 +32,16 @@ export class GCloudStorageService {
   async upload(
     fileMetadata: UploadedFileMetadata,
     perRequestOptions: Partial<GCloudStoragePerRequestOptions> = null,
+    storagePath: string = null,
   ): Promise<string> {
     // change filename to originalname
     // const filename = uuid();
     const filename = fileMetadata.originalname;
 
-    const gcFilename =
-      perRequestOptions && perRequestOptions.prefix ? join(perRequestOptions.prefix, filename) : filename;
+    // do not use perRequestOptions.prefix
+    // const gcFilename =
+    //   perRequestOptions && perRequestOptions.prefix ? join(perRequestOptions.prefix, filename) : filename;
+    const gcFilename = storagePath ? join(storagePath, filename) : filename;
     const gcFile = this.bucket.file(gcFilename);
 
     // override global options with the provided ones for this request

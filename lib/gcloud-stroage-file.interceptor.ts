@@ -13,6 +13,7 @@ export function GCloudStorageFileInterceptor(
   fieldName: string,
   localOptions?: MulterOptions,
   gcloudStorageOptions?: Partial<GCloudStoragePerRequestOptions>,
+  storagePath?: string,
 ): Type<NestInterceptor> {
   @Injectable()
   class MixinInterceptor implements NestInterceptor {
@@ -32,19 +33,20 @@ export function GCloudStorageFileInterceptor(
       const bno = request.body?.bno;
       const type = request.body?.type;
       const partitioned = request.body?.partitioned;
+      // path initialize
+      let path = null;
 
-      if (bno && type && gcloudStorageOptions && gcloudStorageOptions.prefix) {
+      if (bno && type && storagePath) {
         if (partitioned) {
           // partition
           moment.tz.setDefault('Asia/Seoul');
           const partition = moment().format('YYYYMMDD');
           // setting prefix (assumtion: it's a daily partitioned table)
-          gcloudStorageOptions.prefix = join(
-            gcloudStorageOptions.prefix,
-            `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`,
-          );
+          // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`);
+          path = join(storagePath, `${bno}/${type}/${partition}`);
         } else {
-          gcloudStorageOptions.prefix = join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}`);
+          // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}`);
+          path = join(storagePath, `${bno}/${type}`);
         }
       }
 
@@ -56,7 +58,7 @@ export function GCloudStorageFileInterceptor(
         return;
       }
 
-      const storageUrl = await this.gcloudStorage.upload(file, gcloudStorageOptions);
+      const storageUrl = await this.gcloudStorage.upload(file, gcloudStorageOptions, path);
       file.storageUrl = storageUrl;
       return next.handle();
     }
