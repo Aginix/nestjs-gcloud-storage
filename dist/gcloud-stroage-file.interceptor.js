@@ -24,7 +24,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const gcloud_storage_service_1 = require("./gcloud-storage.service");
 const path_1 = require("path");
 const moment = require("moment-timezone");
-function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOptions) {
+function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOptions, storagePath) {
     let MixinInterceptor = class MixinInterceptor {
         constructor(gcloudStorage) {
             this.gcloudStorage = gcloudStorage;
@@ -39,21 +39,22 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                 const bno = (_a = request.body) === null || _a === void 0 ? void 0 : _a.bno;
                 const type = (_b = request.body) === null || _b === void 0 ? void 0 : _b.type;
                 const partitioned = (_c = request.body) === null || _c === void 0 ? void 0 : _c.partitioned;
-                if (bno && type && gcloudStorageOptions && gcloudStorageOptions.prefix) {
+                let path = null;
+                if (bno && type && storagePath) {
                     if (partitioned) {
                         moment.tz.setDefault('Asia/Seoul');
                         const partition = moment().format('YYYYMMDD');
-                        gcloudStorageOptions.prefix = path_1.join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`);
+                        path = path_1.join(storagePath, `${bno}/${type}/${partition}`);
                     }
                     else {
-                        gcloudStorageOptions.prefix = path_1.join(gcloudStorageOptions.prefix, `${bno}/${type}/tb_raw_${bno}_${type}`);
+                        path = path_1.join(storagePath, `${bno}/${type}`);
                     }
                 }
                 if (!file) {
                     common_1.Logger.error('GCloudStorageFileInterceptor', `Can not intercept field "${fieldName}". Did you specify the correct field name in @GCloudStorageFileInterceptor('${fieldName}')?`);
                     return;
                 }
-                const storageUrl = yield this.gcloudStorage.upload(file, gcloudStorageOptions);
+                const storageUrl = yield this.gcloudStorage.upload(file, gcloudStorageOptions, path);
                 file.storageUrl = storageUrl;
                 return next.handle();
             });

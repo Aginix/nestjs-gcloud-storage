@@ -37,10 +37,10 @@ let GCloudStorageService = GCloudStorageService_1 = class GCloudStorageService {
         const bucketName = this.options.defaultBucketname;
         this.bucket = this.storage.bucket(bucketName);
     }
-    upload(fileMetadata, perRequestOptions = null) {
+    upload(fileMetadata, perRequestOptions = null, storagePath = null) {
         return __awaiter(this, void 0, void 0, function* () {
             const filename = fileMetadata.originalname;
-            const gcFilename = perRequestOptions && perRequestOptions.prefix ? path_1.join(perRequestOptions.prefix, filename) : filename;
+            const gcFilename = storagePath ? path_1.join(storagePath, filename) : filename;
             const gcFile = this.bucket.file(gcFilename);
             perRequestOptions = Object.assign(Object.assign({}, this.options), perRequestOptions);
             const writeStreamOptions = perRequestOptions && perRequestOptions.writeStreamOptions;
