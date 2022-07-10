@@ -44,10 +44,10 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                     if (partitioned) {
                         moment.tz.setDefault('Asia/Seoul');
                         const partition = moment().format('YYYYMMDD');
-                        path = path_1.join(storagePath, `${bno}/${type}/source/${partition}`);
+                        path = path_1.join(storagePath, `${bno}/${type}/${partition}`);
                     }
                     else {
-                        path = path_1.join(storagePath, `${bno}/${type}/source`);
+                        path = path_1.join(storagePath, `${bno}/${type}`);
                     }
                 }
                 if (!file) {
