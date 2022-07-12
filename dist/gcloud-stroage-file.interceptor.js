@@ -31,24 +31,18 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
             this.interceptor = new (platform_express_1.FileInterceptor(fieldName, localOptions))();
         }
         intercept(context, next) {
-            var _a, _b, _c;
+            var _a, _b;
             return __awaiter(this, void 0, void 0, function* () {
                 (yield this.interceptor.intercept(context, next));
                 const request = context.switchToHttp().getRequest();
                 const file = request[fieldName];
                 const bno = (_a = request.body) === null || _a === void 0 ? void 0 : _a.bno;
                 const type = (_b = request.body) === null || _b === void 0 ? void 0 : _b.type;
-                const partitioned = (_c = request.body) === null || _c === void 0 ? void 0 : _c.partitioned;
                 let path = null;
                 if (bno && type && storagePath) {
-                    if (partitioned) {
-                        moment.tz.setDefault('Asia/Seoul');
-                        const partition = moment().format('YYYYMMDD');
-                        path = path_1.join(storagePath, `${bno}/${type}/${partition}`);
-                    }
-                    else {
-                        path = path_1.join(storagePath, `${bno}/${type}`);
-                    }
+                    moment.tz.setDefault('Asia/Seoul');
+                    const partition = moment().format('YYYYMMDD');
+                    path = path_1.join(storagePath, `${bno}/${type}/${partition}`);
                 }
                 if (!file) {
                     common_1.Logger.error('GCloudStorageFileInterceptor', `Can not intercept field "${fieldName}". Did you specify the correct field name in @GCloudStorageFileInterceptor('${fieldName}')?`);

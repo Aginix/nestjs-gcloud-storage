@@ -32,22 +32,19 @@ export function GCloudStorageFileInterceptor(
       // customize gcloudStroageOptions.prefix to use request object
       const bno = request.body?.bno;
       const type = request.body?.type;
-      const partitioned = request.body?.partitioned;
+      // const partitioned: boolean = request.body?.partitioned;
       // path initialize
       let path = null;
 
       if (bno && type && storagePath) {
-        if (partitioned) {
-          // partition
-          moment.tz.setDefault('Asia/Seoul');
-          const partition = moment().format('YYYYMMDD');
-          // setting prefix (assumtion: it's a daily partitioned table)
-          // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}/dt=${partition}`);
-          path = join(storagePath, `${bno}/${type}/${partition}`);
-        } else {
-          // path = join(storagePath, `${bno}/${type}/tb_raw_${bno}_${type}`);
-          path = join(storagePath, `${bno}/${type}`);
-        }
+        // NOTE: 파일의 히스토리를 관리하기 위해 날짜가 들어가면 좋다.
+        // if (partitioned) {
+        moment.tz.setDefault('Asia/Seoul');
+        const partition = moment().format('YYYYMMDD');
+        path = join(storagePath, `${bno}/${type}/${partition}`);
+        // } else {
+        //   path = join(storagePath, `${bno}/${type}`);
+        // }
       }
 
       if (!file) {
