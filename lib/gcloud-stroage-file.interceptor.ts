@@ -30,7 +30,7 @@ export function GCloudStorageFileInterceptor(
       const file = request[fieldName];
 
       // customize gcloudStroageOptions.prefix to use request object
-      const bno = request.body?.bno;
+      const { bno } = request.decoded;
       const type = request.body?.type;
       // const partitioned: boolean = request.body?.partitioned;
       // path initialize

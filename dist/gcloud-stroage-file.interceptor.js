@@ -31,13 +31,13 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
             this.interceptor = new (platform_express_1.FileInterceptor(fieldName, localOptions))();
         }
         intercept(context, next) {
-            var _a, _b;
+            var _a;
             return __awaiter(this, void 0, void 0, function* () {
                 (yield this.interceptor.intercept(context, next));
                 const request = context.switchToHttp().getRequest();
                 const file = request[fieldName];
-                const bno = (_a = request.body) === null || _a === void 0 ? void 0 : _a.bno;
-                const type = (_b = request.body) === null || _b === void 0 ? void 0 : _b.type;
+                const { bno } = request.decoded;
+                const type = (_a = request.body) === null || _a === void 0 ? void 0 : _a.type;
                 let path = null;
                 if (bno && type && storagePath) {
                     moment.tz.setDefault('Asia/Seoul');
