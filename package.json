@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^4.7.0",
+    "fast-csv": "^4.3.6",
     "moment-timezone": "^0.5.34"
   },
   "devDependencies": {
