@@ -41,7 +41,7 @@ const validateContentType = (mimetype: string) => {
   if (mimetype?.match(/text\/(csv)$/)) {
     return null;
   } else {
-    throw new InvalidFileFormatException(ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR);
+    throw new InvalidFileFormatException(ERROR_MESSAGE.MIME_TYPE_ERROR);
   }
 };
 
