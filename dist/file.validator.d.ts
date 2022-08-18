@@ -1,1 +1,1 @@
-export declare const validate: (buffer: any, type: string) => Promise<any>;
+export declare const validate: (file: any, type: string) => Promise<any>;
