@@ -1,4 +1,5 @@
 import { Readable } from 'stream';
+import * as moment from 'moment-timezone';
 
 /**
  * https://gist.github.com/jed/982883
@@ -27,3 +28,27 @@ export class ReadableBufferStream extends Readable {
     }
   }
 }
+
+export const isNotEmpty = (str: string): boolean => {
+  if (str && str.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isValidJson = (str: string): boolean => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const isValidDate = (date: string): boolean => {
+  if (date && date.length > 0) {
+    return moment(date, 'YYYYMMDDHHmmss', true).isValid();
+  }
+  return false;
+};
