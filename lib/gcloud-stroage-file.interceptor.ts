@@ -8,6 +8,7 @@ import { GCloudStorageService } from './gcloud-storage.service';
 import { join } from 'path';
 
 import * as moment from 'moment-timezone';
+import { validate } from './file.validator';
 
 export function GCloudStorageFileInterceptor(
   fieldName: string,
@@ -28,23 +29,20 @@ export function GCloudStorageFileInterceptor(
 
       const request = context.switchToHttp().getRequest();
       const file = request[fieldName];
-
       // customize gcloudStroageOptions.prefix to use request object
       const { bno } = request.decoded;
       const type = request.body?.type;
-      // const partitioned: boolean = request.body?.partitioned;
+
+      // validate
+      await validate(file.buffer, type);
+
       // path initialize
       let path = null;
-
       if (bno && type && storagePath) {
         // NOTE: 파일의 히스토리를 관리하기 위해 날짜가 들어가면 좋다.
-        // if (partitioned) {
         moment.tz.setDefault('Asia/Seoul');
         const partition = moment().format('YYYYMMDD');
         path = join(storagePath, `${bno}/${type}/${partition}`);
-        // } else {
-        //   path = join(storagePath, `${bno}/${type}`);
-        // }
       }
 
       if (!file) {
