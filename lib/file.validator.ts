@@ -2,7 +2,7 @@ import assert = require('assert');
 import { parseStream } from 'fast-csv';
 import { ERROR_MESSAGE, FileType } from './enums';
 import { InvalidFileFormatException } from './file.exception';
-import { ReadableBufferStream } from './utils';
+import { isNotEmpty, isValidDate, isValidJson, ReadableBufferStream } from './utils';
 
 // type CategoryRow = {
 //   category_code: string;
@@ -48,7 +48,7 @@ export const validate = async (buffer: any, type: string): Promise<any> => {
           reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
         })
         .on('end', (cnt: number) => {
-          resolve(`Parsed ${cnt} rows`);
+          resolve(null);
         });
     });
   } else if (type == FileType.ITEM) {
@@ -65,7 +65,7 @@ export const validate = async (buffer: any, type: string): Promise<any> => {
           reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
         })
         .on('end', (cnt: number) => {
-          resolve(`Parsed ${cnt} rows`);
+          resolve(null);
         });
     });
   } else if (type == FileType.REVIEW) {
@@ -82,7 +82,7 @@ export const validate = async (buffer: any, type: string): Promise<any> => {
           reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
         })
         .on('end', (cnt: number) => {
-          resolve(`Parsed ${cnt} rows`);
+          resolve(null);
         });
     });
   } else {
@@ -92,15 +92,16 @@ export const validate = async (buffer: any, type: string): Promise<any> => {
 
 const checkFmtCate = (row: any, callback: any) => {
   const [category_code, category_name, created_date, last_updated_date] = row;
-  // null check
-  // category_name check
-  // date-fmt check
   try {
     assert(
-      category_code || category_name || created_date,
+      isNotEmpty(category_code) && isNotEmpty(category_name) && isNotEmpty(created_date),
       `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
     );
-    assert(category_name.split('>').length > 0, `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`);
+    // assert(category_name.split('>').length > 0, `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`);
+    assert(isValidDate(created_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    if (last_updated_date && last_updated_date.length > 0) {
+      assert(isValidDate(last_updated_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
   } catch (e) {
     return callback(null, false, e?.message);
   }
@@ -108,9 +109,44 @@ const checkFmtCate = (row: any, callback: any) => {
 };
 
 const checkFmtItem = (row: any, callback: any) => {
+  const [item_code, category_code, title, image_url, is_deleted, created_date, last_updated_date] = row;
+  try {
+    assert(
+      isNotEmpty(item_code) && isNotEmpty(category_code) && isNotEmpty(title) && isNotEmpty(image_url),
+      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
+    );
+    if (isNotEmpty(is_deleted)) {
+      assert(['Y', 'N'].includes(is_deleted), `${ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
+    assert(isValidDate(created_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    if (isNotEmpty(last_updated_date)) {
+      assert(isValidDate(last_updated_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
+  } catch (e) {
+    return callback(null, false, e?.message);
+  }
   return callback(null, true);
 };
 
 const checkFmtRevw = (row: any, callback: any) => {
+  const [item_code, review_code, review, is_deleted, filter_and_sort, created_date, last_updated_date] = row;
+  try {
+    assert(
+      isNotEmpty(item_code) && isNotEmpty(review_code) && isNotEmpty(review) && isNotEmpty(created_date),
+      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
+    );
+    if (isNotEmpty(is_deleted)) {
+      assert(['Y', 'N'].includes(is_deleted), `${ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
+    if (isNotEmpty(filter_and_sort)) {
+      assert(isValidJson(filter_and_sort), `${ERROR_MESSAGE.FILTER_AND_SORT_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
+    assert(isValidDate(created_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    if (isNotEmpty(last_updated_date)) {
+      assert(isValidDate(last_updated_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
+    }
+  } catch (e) {
+    return callback(null, false, e?.message);
+  }
   return callback(null, true);
 };
