@@ -34,7 +34,7 @@ export function GCloudStorageFileInterceptor(
       const type = request.body?.type;
 
       // validate
-      await validate(file.buffer, type);
+      await validate(file, type);
 
       // path initialize
       let path = null;
