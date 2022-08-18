@@ -32,7 +32,20 @@ import { isNotEmpty, isValidDate, isValidJson, ReadableBufferStream } from './ut
 //   last_updated_date: string;
 // };
 
-export const validate = async (buffer: any, type: string): Promise<any> => {
+export const validate = async (file: any, type: string): Promise<any> => {
+  validateContentType(file?.mimetype);
+  await validateFileBuffer(file?.buffer, type);
+};
+
+const validateContentType = (mimetype: string) => {
+  if (mimetype?.match(/text\/(csv)$/)) {
+    return null;
+  } else {
+    throw new InvalidFileFormatException(ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR);
+  }
+};
+
+const validateFileBuffer = async (buffer: any, type: string): Promise<any> => {
   const stream = new ReadableBufferStream(buffer);
   if (type == FileType.CATEGORY) {
     return new Promise((resolve, reject) => {
@@ -86,7 +99,7 @@ export const validate = async (buffer: any, type: string): Promise<any> => {
         });
     });
   } else {
-    throw new InvalidFileFormatException(ERROR_MESSAGE.FILE_TYPE_ERR);
+    throw new InvalidFileFormatException(ERROR_MESSAGE.FILE_TYPE_ERROR);
   }
 };
 
@@ -95,9 +108,9 @@ const checkFmtCate = (row: any, callback: any) => {
   try {
     assert(
       isNotEmpty(category_code) && isNotEmpty(category_name) && isNotEmpty(created_date),
-      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
+      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL_ERROR}\n에러발생데이터: ${row}`,
     );
-    // assert(category_name.split('>').length > 0, `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`);
+    // assert(category_name.split('>').length > 0, `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL_ERROR}\n에러발생데이터: ${row}`);
     assert(isValidDate(created_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
     if (last_updated_date && last_updated_date.length > 0) {
       assert(isValidDate(last_updated_date), `${ERROR_MESSAGE.DATE_FORMAT_ERROR}\n에러발생데이터: ${row}`);
@@ -113,7 +126,7 @@ const checkFmtItem = (row: any, callback: any) => {
   try {
     assert(
       isNotEmpty(item_code) && isNotEmpty(category_code) && isNotEmpty(title) && isNotEmpty(image_url),
-      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
+      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL_ERROR}\n에러발생데이터: ${row}`,
     );
     if (isNotEmpty(is_deleted)) {
       assert(['Y', 'N'].includes(is_deleted), `${ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR}\n에러발생데이터: ${row}`);
@@ -133,7 +146,7 @@ const checkFmtRevw = (row: any, callback: any) => {
   try {
     assert(
       isNotEmpty(item_code) && isNotEmpty(review_code) && isNotEmpty(review) && isNotEmpty(created_date),
-      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL}\n에러발생데이터: ${row}`,
+      `${ERROR_MESSAGE.NOT_FOUND_REQUIRED_COL_ERROR}\n에러발생데이터: ${row}`,
     );
     if (isNotEmpty(is_deleted)) {
       assert(['Y', 'N'].includes(is_deleted), `${ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR}\n에러발생데이터: ${row}`);
