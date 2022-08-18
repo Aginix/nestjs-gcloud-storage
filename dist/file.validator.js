@@ -24,7 +24,7 @@ const validateContentType = (mimetype) => {
         return null;
     }
     else {
-        throw new file_exception_1.InvalidFileFormatException(enums_1.ERROR_MESSAGE.IS_DELETED_FORMAT_ERROR);
+        throw new file_exception_1.InvalidFileFormatException(enums_1.ERROR_MESSAGE.MIME_TYPE_ERROR);
     }
 };
 const validateFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void 0, function* () {
