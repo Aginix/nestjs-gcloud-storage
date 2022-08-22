@@ -15,10 +15,21 @@ const fast_csv_1 = require("fast-csv");
 const enums_1 = require("./enums");
 const file_exception_1 = require("./file.exception");
 const utils_1 = require("./utils");
+const encDetector = require("detect-character-encoding");
 exports.validate = (file, type) => __awaiter(void 0, void 0, void 0, function* () {
+    validateFileEncoding(file === null || file === void 0 ? void 0 : file.buffer);
     validateContentType(file === null || file === void 0 ? void 0 : file.mimetype);
     yield validateFileBuffer(file === null || file === void 0 ? void 0 : file.buffer, type);
 });
+const validateFileEncoding = (buffer) => {
+    const { encoding } = encDetector(buffer);
+    if (encoding && encoding == 'UTF-8') {
+        return null;
+    }
+    else {
+        throw new file_exception_1.InvalidFileFormatException(enums_1.ERROR_MESSAGE.ENCODING_ERROR);
+    }
+};
 const validateContentType = (mimetype) => {
     if (mimetype === null || mimetype === void 0 ? void 0 : mimetype.match(/text\/(csv)$/)) {
         return null;
