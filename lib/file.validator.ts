@@ -3,6 +3,7 @@ import { parseStream } from 'fast-csv';
 import { ERROR_MESSAGE, FileType } from './enums';
 import { InvalidFileFormatException } from './file.exception';
 import { isNotEmpty, isValidDate, isValidJson, ReadableBufferStream } from './utils';
+import * as encDetector from 'detect-character-encoding';
 
 // type CategoryRow = {
 //   category_code: string;
@@ -33,8 +34,18 @@ import { isNotEmpty, isValidDate, isValidJson, ReadableBufferStream } from './ut
 // };
 
 export const validate = async (file: any, type: string): Promise<any> => {
+  validateFileEncoding(file?.buffer);
   validateContentType(file?.mimetype);
   await validateFileBuffer(file?.buffer, type);
+};
+
+const validateFileEncoding = (buffer: any) => {
+  const { encoding } = encDetector(buffer);
+  if (encoding && encoding == 'UTF-8') {
+    return null;
+  } else {
+    throw new InvalidFileFormatException(ERROR_MESSAGE.ENCODING_ERROR);
+  }
 };
 
 const validateContentType = (mimetype: string) => {
