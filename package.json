@@ -40,7 +40,9 @@
     "@google-cloud/storage": "^4.7.0",
     "detect-character-encoding": "^0.8.0",
     "fast-csv": "^4.3.6",
-    "moment-timezone": "^0.5.34"
+    "moment-timezone": "^0.5.34",
+    "stream-chain": "^2.2.5",
+    "stream-json": "^1.7.4"
   },
   "devDependencies": {
     "@nestjs/common": "7.5.2",
