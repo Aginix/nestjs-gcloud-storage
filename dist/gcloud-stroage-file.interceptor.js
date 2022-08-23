@@ -24,7 +24,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const gcloud_storage_service_1 = require("./gcloud-storage.service");
 const path_1 = require("path");
 const moment = require("moment-timezone");
-const file_validator_1 = require("./file.validator");
+const validator_1 = require("./validator/validator");
 function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOptions, storagePath) {
     let MixinInterceptor = class MixinInterceptor {
         constructor(gcloudStorage) {
@@ -39,7 +39,7 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                 const file = request[fieldName];
                 const { bno } = request.decoded;
                 const type = (_a = request.body) === null || _a === void 0 ? void 0 : _a.type;
-                yield file_validator_1.validate(file, type);
+                yield validator_1.validate(file, type);
                 let path = null;
                 if (bno && type && storagePath) {
                     moment.tz.setDefault('Asia/Seoul');
