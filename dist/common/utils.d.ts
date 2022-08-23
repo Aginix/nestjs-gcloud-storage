@@ -10,3 +10,4 @@ export declare class ReadableBufferStream extends Readable {
 export declare const isNotEmpty: (str: string) => boolean;
 export declare const isValidJson: (str: string) => boolean;
 export declare const isValidDate: (date: string) => boolean;
+export declare const isJsonContentType: (mimetype: string) => boolean;

@@ -52,3 +52,11 @@ export const isValidDate = (date: string): boolean => {
   }
   return false;
 };
+
+export const isJsonContentType = (mimetype: string): boolean => {
+  if (mimetype?.match(/application\/json/)) {
+    return true;
+  } else {
+    return false;
+  }
+};

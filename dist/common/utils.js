@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidDate = exports.isValidJson = exports.isNotEmpty = exports.ReadableBufferStream = exports.uuid = void 0;
+exports.isJsonContentType = exports.isValidDate = exports.isValidJson = exports.isNotEmpty = exports.ReadableBufferStream = exports.uuid = void 0;
 const stream_1 = require("stream");
 const moment = require("moment-timezone");
 exports.uuid = (a = '') => a
@@ -46,4 +46,12 @@ exports.isValidDate = (date) => {
         return moment(date, 'YYYYMMDDHHmmss', true).isValid();
     }
     return false;
+};
+exports.isJsonContentType = (mimetype) => {
+    if (mimetype === null || mimetype === void 0 ? void 0 : mimetype.match(/application\/json/)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 };

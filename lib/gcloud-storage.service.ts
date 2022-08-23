@@ -4,7 +4,7 @@ import { Storage, Bucket, CreateWriteStreamOptions } from '@google-cloud/storage
 
 import { GCLOUD_STORAGE_MODULE_OPTIONS } from './gcloud-storage.constant';
 import { GCloudStorageOptions, GCloudStoragePerRequestOptions } from './gcloud-storage.interface';
-import { uuid } from './utils';
+import { uuid } from './common/utils';
 
 export interface UploadedFileMetadata {
   fieldname: string;
