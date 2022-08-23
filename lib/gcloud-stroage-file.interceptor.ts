@@ -8,7 +8,7 @@ import { GCloudStorageService } from './gcloud-storage.service';
 import { join } from 'path';
 
 import * as moment from 'moment-timezone';
-import { validate } from './file.validator';
+import { validate } from './validator/validator';
 
 export function GCloudStorageFileInterceptor(
   fieldName: string,
