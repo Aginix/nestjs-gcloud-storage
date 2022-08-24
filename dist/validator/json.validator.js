@@ -23,7 +23,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
         return new Promise((resolve, reject) => {
             const pipeline = getPipeline(stream, checkFmtCate);
             pipeline.on('error', (e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e === null || e === void 0 ? void 0 : e.message}`));
+                throwError(e, reject);
             });
             pipeline.on('end', () => {
                 resolve(null);
@@ -34,7 +34,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
         return new Promise((resolve, reject) => {
             const pipeline = getPipeline(stream, checkFmtItem);
             pipeline.on('error', (e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e === null || e === void 0 ? void 0 : e.message}`));
+                throwError(e, reject);
             });
             pipeline.on('end', () => {
                 resolve(null);
@@ -45,7 +45,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
         return new Promise((resolve, reject) => {
             const pipeline = getPipeline(stream, checkFmtRevw);
             pipeline.on('error', (e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e === null || e === void 0 ? void 0 : e.message}`));
+                throwError(e, reject);
             });
             pipeline.on('end', () => {
                 resolve(null);
@@ -66,6 +66,10 @@ const getPipeline = (stream, checker) => {
         },
     ]);
     return pipeline;
+};
+const throwError = (e, callback) => {
+    const message = utils_1.isValidJson(e === null || e === void 0 ? void 0 : e.message) ? JSON.parse(e === null || e === void 0 ? void 0 : e.message) : e === null || e === void 0 ? void 0 : e.message;
+    callback(new file_exception_1.InvalidFileFormatException(message));
 };
 const checkFmtCate = (row) => {
     base_validator_1.assertCateRow(row, true);

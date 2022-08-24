@@ -87,12 +87,10 @@ const getRevwCols = (row, isJson = false) => {
     }
 };
 const getErrorMsg = (message, errorRow) => {
-    let errorData = null;
-    if (typeof errorRow === 'object') {
-        errorData = JSON.stringify(errorRow);
-    }
-    else {
-        errorData = errorRow;
-    }
-    return `${message}\n---\n에러발생데이터: ${errorData}`;
+    return JSON.stringify({
+        body: message,
+        detail: {
+            errorRow: JSON.stringify(errorRow),
+        },
+    });
 };

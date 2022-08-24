@@ -24,11 +24,11 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtCate(row, callback);
             })
                 .on('error', (error) => {
-                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
+                throwError(error, reject);
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+                throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
                 resolve(null);
@@ -42,11 +42,11 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtItem(row, callback);
             })
                 .on('error', (error) => {
-                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
+                throwError(error, reject);
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+                throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
                 resolve(null);
@@ -60,11 +60,11 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtRevw(row, callback);
             })
                 .on('error', (error) => {
-                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
+                throwError(error, reject);
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
-                reject(new file_exception_1.InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+                throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
                 resolve(null);
@@ -75,6 +75,22 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
         throw new file_exception_1.InvalidFileFormatException(enums_1.ERROR_MESSAGE.FILE_TYPE_ERROR);
     }
 });
+const throwError = (e, callback, num) => {
+    if (num) {
+        let message = null;
+        if (utils_1.isValidJson(e)) {
+            message = JSON.parse(e);
+            message.detail.errorNum = num;
+        }
+        else {
+            message = e;
+        }
+        callback(new file_exception_1.InvalidFileFormatException(message));
+    }
+    else {
+        callback(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR), e === null || e === void 0 ? void 0 : e.stack));
+    }
+};
 const checkFmtCate = (row, callback) => {
     try {
         base_validator_1.assertCateRow(row, false);
@@ -102,6 +118,8 @@ const checkFmtRevw = (row, callback) => {
     }
     return callback(null, true);
 };
-const getErrorMsg = (message, error) => {
-    return `${message}\n---\n에러내용: ${error === null || error === void 0 ? void 0 : error.stack}`;
+const getErrorMsg = (message) => {
+    return {
+        body: message,
+    };
 };
