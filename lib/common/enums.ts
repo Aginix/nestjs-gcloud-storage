@@ -8,6 +8,7 @@ export enum ERROR_MESSAGE {
   FILTER_AND_SORT_FORMAT_ERROR = '커스텀필드는 반드시 JSON 형식으로 입력되어야 합니다.',
   DATE_FORMAT_ERROR = '날짜는 20221231235959과 같이 YYYYMMDDHHmmss 의 형식으로 제공되어야 합니다.',
   CATE_NAME_FORMAT_ERROR = '카테고리 이름은 반드시 > 구분자로 연결되어 있어야 합니다.',
+  PARSING_ERROR = '파일을 정상적으로 해석할 수 없습니다.\n에러 내용을 확인해주세요.',
 }
 
 export enum FileType {

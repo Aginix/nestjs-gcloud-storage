@@ -13,7 +13,7 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtCate(row, callback);
         })
         .on('error', (error) => {
-          reject(error);
+          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
@@ -30,7 +30,7 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtItem(row, callback);
         })
         .on('error', (error) => {
-          reject(error);
+          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
@@ -47,7 +47,7 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtRevw(row, callback);
         })
         .on('error', (error) => {
-          reject(error);
+          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
@@ -87,4 +87,8 @@ const checkFmtRevw = (row: any, callback: any) => {
     return callback(null, false, e?.message);
   }
   return callback(null, true);
+};
+
+const getErrorMsg = (message: string, error: any): string => {
+  return `${message}\n---\n에러내용: ${error?.stack}`;
 };
