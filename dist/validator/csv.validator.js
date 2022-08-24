@@ -24,7 +24,7 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtCate(row, callback);
             })
                 .on('error', (error) => {
-                reject(error);
+                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
@@ -42,7 +42,7 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtItem(row, callback);
             })
                 .on('error', (error) => {
-                reject(error);
+                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
@@ -60,7 +60,7 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 return checkFmtRevw(row, callback);
             })
                 .on('error', (error) => {
-                reject(error);
+                reject(new file_exception_1.InvalidFileFormatException(getErrorMsg(enums_1.ERROR_MESSAGE.PARSING_ERROR, error)));
             })
                 .on('data', () => { })
                 .on('data-invalid', (row, num, e) => {
@@ -101,4 +101,7 @@ const checkFmtRevw = (row, callback) => {
         return callback(null, false, e === null || e === void 0 ? void 0 : e.message);
     }
     return callback(null, true);
+};
+const getErrorMsg = (message, error) => {
+    return `${message}\n---\n에러내용: ${error === null || error === void 0 ? void 0 : error.stack}`;
 };
