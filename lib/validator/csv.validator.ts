@@ -1,7 +1,7 @@
 import { parseStream } from 'fast-csv';
 import { ERROR_MESSAGE, FileType } from '../common/enums';
 import { InvalidFileFormatException } from '../exceptions/file.exception';
-import { ReadableBufferStream } from '../common/utils';
+import { isValidJson, ReadableBufferStream } from '../common/utils';
 import { assertCateRow, assertItemRow, assertRevwRow } from './base.validator';
 
 export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<any> => {
@@ -13,11 +13,11 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtCate(row, callback);
         })
         .on('error', (error) => {
-          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
+          throwError(error, reject);
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
-          reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+          throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
           resolve(null);
@@ -30,11 +30,11 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtItem(row, callback);
         })
         .on('error', (error) => {
-          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
+          throwError(error, reject);
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
-          reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+          throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
           resolve(null);
@@ -47,11 +47,11 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           return checkFmtRevw(row, callback);
         })
         .on('error', (error) => {
-          reject(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR, error)));
+          throwError(error, reject);
         })
         .on('data', () => {})
         .on('data-invalid', (row, num, e) => {
-          reject(new InvalidFileFormatException(`${e}\n에러발생위치: ${num}행`));
+          throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
           resolve(null);
@@ -59,6 +59,21 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
     });
   } else {
     throw new InvalidFileFormatException(ERROR_MESSAGE.FILE_TYPE_ERROR);
+  }
+};
+
+const throwError = (e: any, callback: any, num?: number) => {
+  if (num) {
+    let message = null;
+    if (isValidJson(e)) {
+      message = JSON.parse(e);
+      message.detail.errorNum = num;
+    } else {
+      message = e;
+    }
+    callback(new InvalidFileFormatException(message));
+  } else {
+    callback(new InvalidFileFormatException(getErrorMsg(ERROR_MESSAGE.PARSING_ERROR), e?.stack));
   }
 };
 
@@ -89,6 +104,8 @@ const checkFmtRevw = (row: any, callback: any) => {
   return callback(null, true);
 };
 
-const getErrorMsg = (message: string, error: any): string => {
-  return `${message}\n---\n에러내용: ${error?.stack}`;
+const getErrorMsg = (message: string): any => {
+  return {
+    body: message,
+  };
 };
