@@ -1,6 +1,6 @@
 import { ERROR_MESSAGE, FileType } from '../common/enums';
 import { InvalidFileFormatException } from '../exceptions/file.exception';
-import { ReadableBufferStream } from '../common/utils';
+import { isValidJson, ReadableBufferStream } from '../common/utils';
 
 import { chain } from 'stream-chain';
 import { parser } from 'stream-json';
@@ -13,7 +13,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
     return new Promise((resolve, reject) => {
       const pipeline = getPipeline(stream, checkFmtCate);
       pipeline.on('error', (e) => {
-        reject(new InvalidFileFormatException(`${e?.message}`));
+        throwError(e, reject);
       });
       pipeline.on('end', () => {
         resolve(null);
@@ -23,7 +23,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
     return new Promise((resolve, reject) => {
       const pipeline = getPipeline(stream, checkFmtItem);
       pipeline.on('error', (e) => {
-        reject(new InvalidFileFormatException(`${e?.message}`));
+        throwError(e, reject);
       });
       pipeline.on('end', () => {
         resolve(null);
@@ -33,7 +33,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
     return new Promise((resolve, reject) => {
       const pipeline = getPipeline(stream, checkFmtRevw);
       pipeline.on('error', (e) => {
-        reject(new InvalidFileFormatException(`${e?.message}`));
+        throwError(e, reject);
       });
       pipeline.on('end', () => {
         resolve(null);
@@ -54,6 +54,11 @@ const getPipeline = (stream: ReadableBufferStream, checker: any): chain => {
     },
   ]);
   return pipeline;
+};
+
+const throwError = (e: any, callback: any) => {
+  const message = isValidJson(e?.message) ? JSON.parse(e?.message) : e?.message;
+  callback(new InvalidFileFormatException(message));
 };
 
 const checkFmtCate = (row: any) => {
