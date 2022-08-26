@@ -15,6 +15,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
+      pipeline.on('data', () => {});
       pipeline.on('end', () => {
         resolve(null);
       });
@@ -25,6 +26,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
+      pipeline.on('data', () => {});
       pipeline.on('end', () => {
         resolve(null);
       });
@@ -35,6 +37,7 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
+      pipeline.on('data', () => {});
       pipeline.on('end', () => {
         resolve(null);
       });
@@ -51,6 +54,7 @@ const getPipeline = (stream: ReadableBufferStream, checker: any): chain => {
     streamArray(),
     (data) => {
       checker(data?.value);
+      return data;
     },
   ]);
   return pipeline;

@@ -25,6 +25,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
+            pipeline.on('data', () => { });
             pipeline.on('end', () => {
                 resolve(null);
             });
@@ -36,6 +37,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
+            pipeline.on('data', () => { });
             pipeline.on('end', () => {
                 resolve(null);
             });
@@ -47,6 +49,7 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
+            pipeline.on('data', () => { });
             pipeline.on('end', () => {
                 resolve(null);
             });
@@ -63,6 +66,7 @@ const getPipeline = (stream, checker) => {
         StreamArray_1.streamArray(),
         (data) => {
             checker(data === null || data === void 0 ? void 0 : data.value);
+            return data;
         },
     ]);
     return pipeline;
