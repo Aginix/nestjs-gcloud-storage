@@ -17,3 +17,4 @@ __exportStar(require("./gcloud-storage.module"), exports);
 __exportStar(require("./gcloud-storage.service"), exports);
 __exportStar(require("./gcloud-stroage-file.interceptor"), exports);
 __exportStar(require("./gcloud-storage-files.interceptor"), exports);
+__exportStar(require("./gcloud-stroage-file.plain.interceptor"), exports);
