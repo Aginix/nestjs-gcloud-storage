@@ -5,3 +5,4 @@ export * from './gcloud-storage.module';
 export * from './gcloud-storage.service';
 export * from './gcloud-stroage-file.interceptor';
 export * from './gcloud-storage-files.interceptor';
+export * from './gcloud-stroage-file.plain.interceptor';
