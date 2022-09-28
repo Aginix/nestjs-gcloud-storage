@@ -31,7 +31,9 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
-                resolve(null);
+                resolve({
+                    row: cnt,
+                });
             });
         });
     }
@@ -49,7 +51,9 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
-                resolve(null);
+                resolve({
+                    row: cnt,
+                });
             });
         });
     }
@@ -67,7 +71,9 @@ exports.validateCsvFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void
                 throwError(e, reject, num);
             })
                 .on('end', (cnt) => {
-                resolve(null);
+                resolve({
+                    row: cnt,
+                });
             });
         });
     }

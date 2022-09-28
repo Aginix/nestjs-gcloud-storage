@@ -9,6 +9,7 @@ export interface UploadedFileMetadata {
   buffer: Buffer;
   size: string;
   storageUrl?: string;
+  shape?: any;
 }
 export declare class GCloudStorageService {
   private readonly options;

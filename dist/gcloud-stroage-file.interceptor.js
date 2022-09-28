@@ -39,7 +39,7 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                 const file = request[fieldName];
                 const { bno } = request.decoded;
                 const type = (_a = request.body) === null || _a === void 0 ? void 0 : _a.type;
-                yield validator_1.validate(file, type);
+                const shape = yield validator_1.validate(file, type);
                 let path = null;
                 if (bno && type && storagePath) {
                     moment.tz.setDefault('Asia/Seoul');
@@ -52,6 +52,7 @@ function GCloudStorageFileInterceptor(fieldName, localOptions, gcloudStorageOpti
                 }
                 const storageUrl = yield this.gcloudStorage.upload(file, gcloudStorageOptions, path);
                 file.storageUrl = storageUrl;
+                file.shape = shape;
                 return next.handle();
             });
         }

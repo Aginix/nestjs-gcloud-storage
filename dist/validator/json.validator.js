@@ -18,6 +18,9 @@ const stream_json_1 = require("stream-json");
 const StreamArray_1 = require("stream-json/streamers/StreamArray");
 const base_validator_1 = require("./base.validator");
 exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, void 0, function* () {
+    const shape = {
+        row: 0,
+    };
     const stream = new utils_1.ReadableBufferStream(buffer);
     if (type == enums_1.FileType.CATEGORY) {
         return new Promise((resolve, reject) => {
@@ -25,9 +28,11 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
-            pipeline.on('data', () => { });
+            pipeline.on('data', () => {
+                shape.row += 1;
+            });
             pipeline.on('end', () => {
-                resolve(null);
+                resolve(shape);
             });
         });
     }
@@ -37,9 +42,11 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
-            pipeline.on('data', () => { });
+            pipeline.on('data', () => {
+                shape.row += 1;
+            });
             pipeline.on('end', () => {
-                resolve(null);
+                resolve(shape);
             });
         });
     }
@@ -49,9 +56,11 @@ exports.validateJsonFileBuffer = (buffer, type) => __awaiter(void 0, void 0, voi
             pipeline.on('error', (e) => {
                 throwError(e, reject);
             });
-            pipeline.on('data', () => { });
+            pipeline.on('data', () => {
+                shape.row += 1;
+            });
             pipeline.on('end', () => {
-                resolve(null);
+                resolve(shape);
             });
         });
     }

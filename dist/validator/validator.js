@@ -21,9 +21,12 @@ exports.validate = (file, type) => __awaiter(void 0, void 0, void 0, function* (
         const { buffer, mimetype } = file;
         validateFileEncoding(buffer);
         validateContentType(mimetype);
-        utils_1.isJsonContentType(mimetype)
-            ? yield json_validator_1.validateJsonFileBuffer(buffer, type)
-            : yield csv_validator_1.validateCsvFileBuffer(buffer, type);
+        if (utils_1.isJsonContentType(mimetype)) {
+            return yield json_validator_1.validateJsonFileBuffer(buffer, type);
+        }
+        else {
+            return yield csv_validator_1.validateCsvFileBuffer(buffer, type);
+        }
     }
     else {
         throw new file_exception_1.NoFileException(enums_1.ERROR_MESSAGE.NO_FILE_ERROR);
