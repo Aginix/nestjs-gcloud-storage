@@ -20,7 +20,9 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
-          resolve(null);
+          resolve({
+            row: cnt,
+          });
         });
     });
   } else if (type == FileType.ITEM) {
@@ -37,7 +39,9 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
-          resolve(null);
+          resolve({
+            row: cnt,
+          });
         });
     });
   } else if (type == FileType.REVIEW) {
@@ -54,7 +58,9 @@ export const validateCsvFileBuffer = async (buffer: any, type: string): Promise<
           throwError(e, reject, num);
         })
         .on('end', (cnt: number) => {
-          resolve(null);
+          resolve({
+            row: cnt,
+          });
         });
     });
   } else {

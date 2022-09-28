@@ -10,9 +10,11 @@ export const validate = async (file: any, type: string): Promise<any> => {
     const { buffer, mimetype } = file;
     validateFileEncoding(buffer);
     validateContentType(mimetype);
-    isJsonContentType(mimetype)
-      ? await validateJsonFileBuffer(buffer, type)
-      : await validateCsvFileBuffer(buffer, type);
+    if (isJsonContentType(mimetype)) {
+      return await validateJsonFileBuffer(buffer, type);
+    } else {
+      return await validateCsvFileBuffer(buffer, type);
+    }
   } else {
     throw new NoFileException(ERROR_MESSAGE.NO_FILE_ERROR);
   }

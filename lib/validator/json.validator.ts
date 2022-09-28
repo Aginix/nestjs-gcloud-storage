@@ -8,6 +8,9 @@ import { streamArray } from 'stream-json/streamers/StreamArray';
 import { assertCateRow, assertItemRow, assertRevwRow } from './base.validator';
 
 export const validateJsonFileBuffer = async (buffer: any, type: string): Promise<any> => {
+  const shape = {
+    row: 0,
+  };
   const stream = new ReadableBufferStream(buffer);
   if (type == FileType.CATEGORY) {
     return new Promise((resolve, reject) => {
@@ -15,9 +18,11 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
-      pipeline.on('data', () => {});
+      pipeline.on('data', () => {
+        shape.row += 1;
+      });
       pipeline.on('end', () => {
-        resolve(null);
+        resolve(shape);
       });
     });
   } else if (type == FileType.ITEM) {
@@ -26,9 +31,11 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
-      pipeline.on('data', () => {});
+      pipeline.on('data', () => {
+        shape.row += 1;
+      });
       pipeline.on('end', () => {
-        resolve(null);
+        resolve(shape);
       });
     });
   } else if (type == FileType.REVIEW) {
@@ -37,9 +44,11 @@ export const validateJsonFileBuffer = async (buffer: any, type: string): Promise
       pipeline.on('error', (e) => {
         throwError(e, reject);
       });
-      pipeline.on('data', () => {});
+      pipeline.on('data', () => {
+        shape.row += 1;
+      });
       pipeline.on('end', () => {
-        resolve(null);
+        resolve(shape);
       });
     });
   } else {
