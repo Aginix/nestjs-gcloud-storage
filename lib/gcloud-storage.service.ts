@@ -14,6 +14,7 @@ export interface UploadedFileMetadata {
   buffer: Buffer;
   size: string;
   storageUrl?: string;
+  shape?: any;
 }
 
 @Injectable()
